@@ -51,15 +51,6 @@ class Product(models.Model):
             self.slug = slugify(self.name, allow_unicode=True)
         super().save(*args, **kwargs)
 
-    def average_rating(self):
-        rating = self.prating.all()
-        if rating.exists():
-            return round(sum(r.score for r in rating) / rating.count(), 1)
-        return 0
-
-    def get_absolute_url(self):
-        return reverse(viewname='home:product_detail', args=[self.slug])
-
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField()

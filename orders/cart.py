@@ -1,4 +1,5 @@
 from home.models import Product
+from django.db.models import Avg
 
 CART_SESSION_ID = 'cart'
 class Cart:
@@ -11,7 +12,7 @@ class Cart:
 
     def __iter__(self):
         product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
+        products = Product.objects.filter(id__in=product_ids).annotate(annotated_avg_rating=Avg('prating__score'))
         cart = self.cart.copy()
         for product in products:
             cart[str(product.id)]['product'] = product

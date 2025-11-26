@@ -2,12 +2,17 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from .models import Order
 
+
 @receiver(pre_save, sender=Order)
 def update_product_stock(sender, instance, **kwargs):
     if not instance.pk:
         return
-    old_order = Order.objects.get(pk=instance.pk)
-    if not old_order.paid and instance.paid:
+
+    try:
+        old_order = Order.objects.get(pk=instance.pk)
+    except Order.DoesNotExist:
+        return
+    if old_order.status != 'paid' and instance.status == 'paid':
         for item in instance.items.all():
             product = item.product
             if product.stock >= item.quantity:

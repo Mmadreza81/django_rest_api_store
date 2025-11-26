@@ -1,51 +1,86 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
-from django.utils import timezone
-from datetime import timedelta
-from .models import OtpCode
-from .serializers import OTPRequestSerializer, OTPVerifySerializer
-from .tasks import send_otp_email_async
+from rest_framework import status, viewsets, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.shortcuts import get_object_or_404
+from .models import User, OtpCode, Profile, Address
+from .serializers import UserRegisterSerializer, OtpVerifySerializer, UserInfoSerializer, AddressSerializer, ProfileSerializer
+from rest_framework import serializers
+from .tasks import send_otp_email_async
 
-class OTPRequestView(APIView):
-    permission_classes = [permissions.AllowAny]
 
+class RegisterView(APIView):
     def post(self, request):
-        serializer = OTPRequestSerializer(data=request.data)
+        serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
-            email = serializer.validated_data['email']
-            hour_ago = timezone.now() - timedelta(hours=1)
-            recent = OtpCode.objects.filter(email=email, created_at__gte=hour_ago).count()
-            if recent >= 5:
-                return Response({"detail": "too many requests. try later"}, status=status.HTTP_429_TOO_MANY_REQUESTS)
-            otp = OtpCode.create_for_email(email)
+            user = serializer.save()
+
+            # ایجاد OTP
+            otp = OtpCode.create_for_email(user.email)
+            # فراخوانی تسک ناهمگام (Async)
             send_otp_email_async.delay(otp.id)
-            return Response({"detail": "email sent"}, status=status.HTTP_200_OK)
+
+            return Response({'message': 'کاربر ساخته شد.ایمیل خود را برای احراز هویت چک کنید.'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class OTPVerifyView(APIView):
-    permission_classes = [permissions.AllowAny]
 
+class VerifyOtpView(APIView):
     def post(self, request):
-        serializer = OTPVerifySerializer(data=request.data)
+        serializer = OtpVerifySerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
             code = serializer.validated_data['code']
-            try:
-                otp = OtpCode.objects.filter(email=email, code=code).order_by('-created_at').first()
-            except OtpCode.DoesNotExist:
-                return Response({"detail": "invalid code"}, status=status.HTTP_400_BAD_REQUEST)
+
+            otp = OtpCode.objects.filter(email=email, code=code, is_used=False).first()
+
             if not otp:
-                return Response({"detail": "invalid code"}, status=status.HTTP_400_BAD_REQUEST)
-            if otp.is_used:
-                return Response({"detail": "code already used"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Invalid code'}, status=400)
+
             if otp.is_expired():
-                return Response({"detail": "code expired"}, status=status.HTTP_400_BAD_REQUEST)
-            if otp.attempts >= 5:
-                return Response({"detail": "too many attempts"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Code expired'}, status=400)
+
+            # فعال‌سازی کاربر
+            user = get_object_or_404(User, email=email)
+            user.is_active = True
+            user.save()
+
             otp.mark_used()
 
-            token = RefreshToken.for_user(otp.user) if otp.user else None
-            return Response({"detail": "verified", "token": str(token.access_token) if token else None}, status=status.HTTP_200_OK)
+            # تولید توکن JWT
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'message': 'اکانت با موفقیت فعال شد'
+            })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfileView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserInfoSerializer(request.user)
+        return Response(serializer.data)
+
+    def put(self, request):
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddressViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = AddressSerializer
+
+    def get_queryset(self):
+        return Address.objects.filter(user=self.user)
+
+    def perform_create(self, serializer):
+        # جلوگیری از ساخت چند آدرس چون مدل OneToOneField است
+        if Address.objects.filter(user=self.request.user).exists():
+            raise serializers.ValidationError("User already has an address.")
+        serializer.save(user=self.request.user)

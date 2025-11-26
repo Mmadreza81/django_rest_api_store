@@ -5,7 +5,7 @@ from .forms import UserCreationForm, UserChangeForm
 
 @admin.register(OtpCode)
 class OtpCodeAdmin(admin.ModelAdmin):
-    list_display = ('email', 'code', 'created')
+    list_display = ('email', 'code', 'created_at')
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -19,7 +19,7 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ['email', 'phone_number', 'is_admin']
+    list_display = ['email', 'phone_number', 'is_admin', 'is_active']
     list_filter = ('is_admin',)
     readonly_fields = ('last_login',)
 

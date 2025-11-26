@@ -40,7 +40,9 @@ class Profile(models.Model):
         return settings.STATIC_URL + 'accounts/profile_pic/default.png'
 
     def __str__(self):
-        return self.full_name
+        if self.full_name:
+            return self.full_name
+        return self.user.username
 
 class Address(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='addresses')
@@ -54,7 +56,7 @@ class Address(models.Model):
 
 class OtpCode(models.Model):
     email = models.EmailField(db_index=True)
-    code = models.PositiveSmallIntegerField()
+    code = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     expired_at = models.DateTimeField()
     attempts = models.IntegerField(default=0)
