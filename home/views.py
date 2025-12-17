@@ -14,10 +14,9 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'slug'
 
     def get_queryset(self):
-        queryset = Product.objects.all()
-        queryset = queryset.annotate(annotated_avg_rating=Avg('prating__score'))
-        queryset = queryset.prefetch_related('pcomments', 'prating')
-        return queryset
+        return (Product.objects.filter(available=True).
+                annotate(annotated_avg_rating=Avg('prating__score')).
+                prefetch_related('pcomments', 'prating', 'images'))
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]

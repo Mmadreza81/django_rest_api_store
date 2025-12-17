@@ -1,0 +1,315 @@
+1311:C 01 Dec 2025 13:32:49.335 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1311:C 01 Dec 2025 13:32:49.343 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1311, just started
+1311:C 01 Dec 2025 13:32:49.343 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1311:M 01 Dec 2025 13:32:49.349 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1311:M 01 Dec 2025 13:32:49.349 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1311:M 01 Dec 2025 13:32:49.351 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1311:M 01 Dec 2025 13:32:49.351 * monotonic clock: POSIX clock_gettime
+1311:M 01 Dec 2025 13:32:49.353 * Running mode=standalone, port=6379.
+1311:M 01 Dec 2025 13:32:49.365 * Server initialized
+1311:M 01 Dec 2025 13:32:49.366 * Ready to accept connections tcp
+1311:M 01 Dec 2025 14:32:50.021 * 1 changes in 3600 seconds. Saving...
+1311:M 01 Dec 2025 14:32:50.071 * Background saving started by pid 1312
+1312:C 01 Dec 2025 14:32:50.094 * DB saved on disk
+1312:C 01 Dec 2025 14:32:50.094 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1311:M 01 Dec 2025 14:32:50.181 * Background saving terminated with success
+1446:C 02 Dec 2025 18:57:53.200 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1446:C 02 Dec 2025 18:57:53.203 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1446, just started
+1446:C 02 Dec 2025 18:57:53.203 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1446:M 02 Dec 2025 18:57:53.205 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1446:M 02 Dec 2025 18:57:53.205 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1446:M 02 Dec 2025 18:57:53.205 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1446:M 02 Dec 2025 18:57:53.205 * monotonic clock: POSIX clock_gettime
+1446:M 02 Dec 2025 18:57:53.205 * Running mode=standalone, port=6379.
+1446:M 02 Dec 2025 18:57:53.210 * Server initialized
+1446:M 02 Dec 2025 18:57:53.210 * Loading RDB produced by version 8.2.3
+1446:M 02 Dec 2025 18:57:53.211 * RDB age 102303 seconds
+1446:M 02 Dec 2025 18:57:53.211 * RDB memory usage when created 1.16 Mb
+1446:M 02 Dec 2025 18:57:53.211 * Done loading RDB, keys loaded: 4, keys expired: 2.
+1446:M 02 Dec 2025 18:57:53.212 * DB loaded from disk: 0.002 seconds
+1446:M 02 Dec 2025 18:57:53.212 * Ready to accept connections tcp
+1446:M 02 Dec 2025 19:57:54.050 * 1 changes in 3600 seconds. Saving...
+1446:M 02 Dec 2025 19:57:54.742 * Background saving started by pid 1447
+1447:C 02 Dec 2025 19:57:54.769 * DB saved on disk
+1447:C 02 Dec 2025 19:57:54.769 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1446:M 02 Dec 2025 19:57:54.846 * Background saving terminated with success
+1297:C 03 Dec 2025 16:00:41.400 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1297:C 03 Dec 2025 16:00:41.412 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1297, just started
+1297:C 03 Dec 2025 16:00:41.412 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1297:M 03 Dec 2025 16:00:41.420 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1297:M 03 Dec 2025 16:00:41.420 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1297:M 03 Dec 2025 16:00:41.420 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1297:M 03 Dec 2025 16:00:41.420 * monotonic clock: POSIX clock_gettime
+1297:M 03 Dec 2025 16:00:41.422 * Running mode=standalone, port=6379.
+1297:M 03 Dec 2025 16:00:41.444 * Server initialized
+1297:M 03 Dec 2025 16:00:41.496 * Loading RDB produced by version 8.2.3
+1297:M 03 Dec 2025 16:00:41.496 * RDB age 72167 seconds
+1297:M 03 Dec 2025 16:00:41.496 * RDB memory usage when created 0.95 Mb
+1297:M 03 Dec 2025 16:00:41.496 * Done loading RDB, keys loaded: 4, keys expired: 0.
+1297:M 03 Dec 2025 16:00:41.498 * DB loaded from disk: 0.053 seconds
+1297:M 03 Dec 2025 16:00:41.498 * Ready to accept connections tcp
+1297:M 03 Dec 2025 17:00:42.066 * 1 changes in 3600 seconds. Saving...
+1297:M 03 Dec 2025 17:00:42.732 * Background saving started by pid 1298
+1298:C 03 Dec 2025 17:00:42.758 * DB saved on disk
+1298:C 03 Dec 2025 17:00:42.758 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1297:M 03 Dec 2025 17:00:42.839 * Background saving terminated with success
+114:C 03 Dec 2025 17:20:47.214 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+114:C 03 Dec 2025 17:20:47.222 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=114, just started
+114:C 03 Dec 2025 17:20:47.222 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+114:M 03 Dec 2025 17:20:47.228 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+114:M 03 Dec 2025 17:20:47.228 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+114:M 03 Dec 2025 17:20:47.228 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+114:M 03 Dec 2025 17:20:47.228 * monotonic clock: POSIX clock_gettime
+114:M 03 Dec 2025 17:20:47.229 * Running mode=standalone, port=6379.
+114:M 03 Dec 2025 17:20:47.242 * Server initialized
+114:M 03 Dec 2025 17:20:47.244 * Loading RDB produced by version 8.2.3
+114:M 03 Dec 2025 17:20:47.244 * RDB age 1205 seconds
+114:M 03 Dec 2025 17:20:47.244 * RDB memory usage when created 0.98 Mb
+114:M 03 Dec 2025 17:20:47.244 * Done loading RDB, keys loaded: 5, keys expired: 0.
+114:M 03 Dec 2025 17:20:47.245 * DB loaded from disk: 0.002 seconds
+114:M 03 Dec 2025 17:20:47.245 * Ready to accept connections tcp
+103:C 03 Dec 2025 17:27:30.422 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+103:C 03 Dec 2025 17:27:30.430 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=103, just started
+103:C 03 Dec 2025 17:27:30.430 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+103:M 03 Dec 2025 17:27:30.436 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+103:M 03 Dec 2025 17:27:30.436 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+103:M 03 Dec 2025 17:27:30.436 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+103:M 03 Dec 2025 17:27:30.436 * monotonic clock: POSIX clock_gettime
+103:M 03 Dec 2025 17:27:30.437 * Running mode=standalone, port=6379.
+103:M 03 Dec 2025 17:27:30.451 * Server initialized
+103:M 03 Dec 2025 17:27:30.453 * Loading RDB produced by version 8.2.3
+103:M 03 Dec 2025 17:27:30.453 * RDB age 1608 seconds
+103:M 03 Dec 2025 17:27:30.453 * RDB memory usage when created 0.98 Mb
+103:M 03 Dec 2025 17:27:30.453 * Done loading RDB, keys loaded: 5, keys expired: 0.
+103:M 03 Dec 2025 17:27:30.454 * DB loaded from disk: 0.002 seconds
+103:M 03 Dec 2025 17:27:30.454 * Ready to accept connections tcp
+560:C 03 Dec 2025 17:44:18.878 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+560:C 03 Dec 2025 17:44:18.884 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=560, just started
+560:C 03 Dec 2025 17:44:18.884 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+560:M 03 Dec 2025 17:44:18.887 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+560:M 03 Dec 2025 17:44:18.887 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+560:M 03 Dec 2025 17:44:18.887 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+560:M 03 Dec 2025 17:44:18.887 * monotonic clock: POSIX clock_gettime
+560:M 03 Dec 2025 17:44:18.892 * Running mode=standalone, port=6379.
+560:M 03 Dec 2025 17:44:18.910 * Server initialized
+560:M 03 Dec 2025 17:44:18.912 * Loading RDB produced by version 8.2.3
+560:M 03 Dec 2025 17:44:18.912 * RDB age 2616 seconds
+560:M 03 Dec 2025 17:44:18.912 * RDB memory usage when created 0.98 Mb
+560:M 03 Dec 2025 17:44:18.912 * Done loading RDB, keys loaded: 5, keys expired: 0.
+560:M 03 Dec 2025 17:44:18.912 * DB loaded from disk: 0.002 seconds
+560:M 03 Dec 2025 17:44:18.912 * Ready to accept connections tcp
+1899:C 03 Dec 2025 17:47:54.457 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1899:C 03 Dec 2025 17:47:54.461 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1899, just started
+1899:C 03 Dec 2025 17:47:54.461 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1899:M 03 Dec 2025 17:47:54.465 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1899:M 03 Dec 2025 17:47:54.465 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1899:M 03 Dec 2025 17:47:54.465 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1899:M 03 Dec 2025 17:47:54.465 * monotonic clock: POSIX clock_gettime
+1899:M 03 Dec 2025 17:47:54.466 * Running mode=standalone, port=6379.
+1899:M 03 Dec 2025 17:47:54.473 * Server initialized
+1899:M 03 Dec 2025 17:47:54.490 * Loading RDB produced by version 8.2.3
+1899:M 03 Dec 2025 17:47:54.490 * RDB age 2832 seconds
+1899:M 03 Dec 2025 17:47:54.490 * RDB memory usage when created 0.98 Mb
+1899:M 03 Dec 2025 17:47:54.490 * Done loading RDB, keys loaded: 5, keys expired: 0.
+1899:M 03 Dec 2025 17:47:54.491 * DB loaded from disk: 0.018 seconds
+1899:M 03 Dec 2025 17:47:54.491 * Ready to accept connections tcp
+1899:M 03 Dec 2025 18:47:55.012 * 1 changes in 3600 seconds. Saving...
+1899:M 03 Dec 2025 18:47:55.496 * Background saving started by pid 1900
+1900:C 03 Dec 2025 18:47:55.517 * DB saved on disk
+1900:C 03 Dec 2025 18:47:55.517 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1899:M 03 Dec 2025 18:47:55.599 * Background saving terminated with success
+1478:C 05 Dec 2025 18:28:28.934 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1478:C 05 Dec 2025 18:28:28.942 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1478, just started
+1478:C 05 Dec 2025 18:28:28.942 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1478:M 05 Dec 2025 18:28:28.951 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1478:M 05 Dec 2025 18:28:28.951 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1478:M 05 Dec 2025 18:28:28.951 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1478:M 05 Dec 2025 18:28:28.951 * monotonic clock: POSIX clock_gettime
+1478:M 05 Dec 2025 18:28:28.958 * Running mode=standalone, port=6379.
+1478:M 05 Dec 2025 18:28:28.973 * Server initialized
+1478:M 05 Dec 2025 18:28:28.986 * Loading RDB produced by version 8.2.3
+1478:M 05 Dec 2025 18:28:28.986 * RDB age 171633 seconds
+1478:M 05 Dec 2025 18:28:28.986 * RDB memory usage when created 0.95 Mb
+1478:M 05 Dec 2025 18:28:28.987 * Done loading RDB, keys loaded: 5, keys expired: 0.
+1478:M 05 Dec 2025 18:28:28.988 * DB loaded from disk: 0.015 seconds
+1478:M 05 Dec 2025 18:28:28.988 * Ready to accept connections tcp
+1478:M 05 Dec 2025 19:28:29.000 * 1 changes in 3600 seconds. Saving...
+1478:M 05 Dec 2025 19:28:29.581 * Background saving started by pid 1479
+1479:C 05 Dec 2025 19:28:29.605 * DB saved on disk
+1479:C 05 Dec 2025 19:28:29.605 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1478:M 05 Dec 2025 19:28:29.689 * Background saving terminated with success
+1769:C 05 Dec 2025 20:25:59.530 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1769:C 05 Dec 2025 20:25:59.540 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1769, just started
+1769:C 05 Dec 2025 20:25:59.540 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1769:M 05 Dec 2025 20:25:59.543 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1769:M 05 Dec 2025 20:25:59.543 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1769:M 05 Dec 2025 20:25:59.543 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1769:M 05 Dec 2025 20:25:59.543 * monotonic clock: POSIX clock_gettime
+1769:M 05 Dec 2025 20:25:59.547 * Running mode=standalone, port=6379.
+1769:M 05 Dec 2025 20:25:59.560 * Server initialized
+1769:M 05 Dec 2025 20:25:59.562 * Loading RDB produced by version 8.2.3
+1769:M 05 Dec 2025 20:25:59.562 * RDB age 3450 seconds
+1769:M 05 Dec 2025 20:25:59.562 * RDB memory usage when created 0.95 Mb
+1769:M 05 Dec 2025 20:25:59.562 * Done loading RDB, keys loaded: 5, keys expired: 0.
+1769:M 05 Dec 2025 20:25:59.563 * DB loaded from disk: 0.002 seconds
+1769:M 05 Dec 2025 20:25:59.563 * Ready to accept connections tcp
+639:C 05 Dec 2025 20:27:07.271 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+639:C 05 Dec 2025 20:27:07.284 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=639, just started
+639:C 05 Dec 2025 20:27:07.284 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+639:M 05 Dec 2025 20:27:07.287 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+639:M 05 Dec 2025 20:27:07.287 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+639:M 05 Dec 2025 20:27:07.287 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+639:M 05 Dec 2025 20:27:07.287 * monotonic clock: POSIX clock_gettime
+639:M 05 Dec 2025 20:27:07.291 * Running mode=standalone, port=6379.
+639:M 05 Dec 2025 20:27:07.304 * Server initialized
+639:M 05 Dec 2025 20:27:07.307 * Loading RDB produced by version 8.2.3
+639:M 05 Dec 2025 20:27:07.307 * RDB age 3518 seconds
+639:M 05 Dec 2025 20:27:07.307 * RDB memory usage when created 0.95 Mb
+639:M 05 Dec 2025 20:27:07.307 * Done loading RDB, keys loaded: 5, keys expired: 0.
+639:M 05 Dec 2025 20:27:07.307 * DB loaded from disk: 0.003 seconds
+639:M 05 Dec 2025 20:27:07.307 * Ready to accept connections tcp
+639:M 05 Dec 2025 21:27:08.012 * 1 changes in 3600 seconds. Saving...
+639:M 05 Dec 2025 21:27:08.686 * Background saving started by pid 640
+640:C 05 Dec 2025 21:27:08.701 * DB saved on disk
+640:C 05 Dec 2025 21:27:08.701 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+639:M 05 Dec 2025 21:27:08.796 * Background saving terminated with success
+777:C 06 Dec 2025 14:36:05.312 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+777:C 06 Dec 2025 14:36:05.316 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=777, just started
+777:C 06 Dec 2025 14:36:05.316 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+777:M 06 Dec 2025 14:36:05.323 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+777:M 06 Dec 2025 14:36:05.324 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+777:M 06 Dec 2025 14:36:05.324 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+777:M 06 Dec 2025 14:36:05.324 * monotonic clock: POSIX clock_gettime
+777:M 06 Dec 2025 14:36:05.333 * Running mode=standalone, port=6379.
+777:M 06 Dec 2025 14:36:05.346 * Server initialized
+777:M 06 Dec 2025 14:36:05.349 * Loading RDB produced by version 8.2.3
+777:M 06 Dec 2025 14:36:05.349 * RDB age 61737 seconds
+777:M 06 Dec 2025 14:36:05.349 * RDB memory usage when created 0.96 Mb
+777:M 06 Dec 2025 14:36:05.350 * Done loading RDB, keys loaded: 5, keys expired: 0.
+777:M 06 Dec 2025 14:36:05.350 * DB loaded from disk: 0.004 seconds
+777:M 06 Dec 2025 14:36:05.350 * Ready to accept connections tcp
+777:M 06 Dec 2025 15:36:06.103 * 1 changes in 3600 seconds. Saving...
+777:M 06 Dec 2025 15:36:06.737 * Background saving started by pid 778
+778:C 06 Dec 2025 15:36:06.761 * DB saved on disk
+778:C 06 Dec 2025 15:36:06.762 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+777:M 06 Dec 2025 15:36:06.849 * Background saving terminated with success
+789:C 07 Dec 2025 22:56:40.709 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+789:C 07 Dec 2025 22:56:40.719 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=789, just started
+789:C 07 Dec 2025 22:56:40.719 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+789:M 07 Dec 2025 22:56:40.722 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+789:M 07 Dec 2025 22:56:40.722 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+789:M 07 Dec 2025 22:56:40.722 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+789:M 07 Dec 2025 22:56:40.722 * monotonic clock: POSIX clock_gettime
+789:M 07 Dec 2025 22:56:40.727 * Running mode=standalone, port=6379.
+789:M 07 Dec 2025 22:56:40.735 * Server initialized
+789:M 07 Dec 2025 22:56:40.738 * Loading RDB produced by version 8.2.3
+789:M 07 Dec 2025 22:56:40.738 * RDB age 112834 seconds
+789:M 07 Dec 2025 22:56:40.738 * RDB memory usage when created 0.95 Mb
+789:M 07 Dec 2025 22:56:40.738 * Done loading RDB, keys loaded: 5, keys expired: 0.
+789:M 07 Dec 2025 22:56:40.739 * DB loaded from disk: 0.003 seconds
+789:M 07 Dec 2025 22:56:40.739 * Ready to accept connections tcp
+789:M 07 Dec 2025 23:56:41.016 * 1 changes in 3600 seconds. Saving...
+789:M 07 Dec 2025 23:56:41.539 * Background saving started by pid 790
+790:C 07 Dec 2025 23:56:41.564 * DB saved on disk
+790:C 07 Dec 2025 23:56:41.564 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+789:M 07 Dec 2025 23:56:41.652 * Background saving terminated with success
+274:C 09 Dec 2025 02:46:37.601 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+274:C 09 Dec 2025 02:46:37.608 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=274, just started
+274:C 09 Dec 2025 02:46:37.608 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+274:M 09 Dec 2025 02:46:37.611 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+274:M 09 Dec 2025 02:46:37.611 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+274:M 09 Dec 2025 02:46:37.611 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+274:M 09 Dec 2025 02:46:37.611 * monotonic clock: POSIX clock_gettime
+274:M 09 Dec 2025 02:46:37.615 * Running mode=standalone, port=6379.
+274:M 09 Dec 2025 02:46:37.625 * Server initialized
+274:M 09 Dec 2025 02:46:37.627 * Loading RDB produced by version 8.2.3
+274:M 09 Dec 2025 02:46:37.627 * RDB age 96596 seconds
+274:M 09 Dec 2025 02:46:37.627 * RDB memory usage when created 0.95 Mb
+274:M 09 Dec 2025 02:46:37.627 * Done loading RDB, keys loaded: 5, keys expired: 0.
+274:M 09 Dec 2025 02:46:37.627 * DB loaded from disk: 0.002 seconds
+274:M 09 Dec 2025 02:46:37.627 * Ready to accept connections tcp
+274:M 09 Dec 2025 08:18:15.666 * 1 changes in 3600 seconds. Saving...
+274:M 09 Dec 2025 08:18:16.205 * Background saving started by pid 275
+275:C 09 Dec 2025 08:18:16.220 * DB saved on disk
+275:C 09 Dec 2025 08:18:16.220 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+274:M 09 Dec 2025 08:18:16.318 * Background saving terminated with success
+1346:C 13 Dec 2025 03:03:04.791 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1346:C 13 Dec 2025 03:03:04.800 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1346, just started
+1346:C 13 Dec 2025 03:03:04.800 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1346:M 13 Dec 2025 03:03:04.804 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1346:M 13 Dec 2025 03:03:04.804 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1346:M 13 Dec 2025 03:03:04.804 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1346:M 13 Dec 2025 03:03:04.804 * monotonic clock: POSIX clock_gettime
+1346:M 13 Dec 2025 03:03:04.808 * Running mode=standalone, port=6379.
+1346:M 13 Dec 2025 03:03:04.822 * Server initialized
+1346:M 13 Dec 2025 03:03:04.824 * Loading RDB produced by version 8.2.3
+1346:M 13 Dec 2025 03:03:04.824 * RDB age 326688 seconds
+1346:M 13 Dec 2025 03:03:04.824 * RDB memory usage when created 0.95 Mb
+1346:M 13 Dec 2025 03:03:04.824 * Done loading RDB, keys loaded: 5, keys expired: 0.
+1346:M 13 Dec 2025 03:03:04.824 * DB loaded from disk: 0.002 seconds
+1346:M 13 Dec 2025 03:03:04.824 * Ready to accept connections tcp
+1195:C 13 Dec 2025 03:03:55.684 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1195:C 13 Dec 2025 03:03:55.692 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1195, just started
+1195:C 13 Dec 2025 03:03:55.692 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1195:M 13 Dec 2025 03:03:55.695 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1195:M 13 Dec 2025 03:03:55.695 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1195:M 13 Dec 2025 03:03:55.695 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1195:M 13 Dec 2025 03:03:55.695 * monotonic clock: POSIX clock_gettime
+1195:M 13 Dec 2025 03:03:55.699 * Running mode=standalone, port=6379.
+1195:M 13 Dec 2025 03:03:55.708 * Server initialized
+1195:M 13 Dec 2025 03:03:55.710 * Loading RDB produced by version 8.2.3
+1195:M 13 Dec 2025 03:03:55.710 * RDB age 326739 seconds
+1195:M 13 Dec 2025 03:03:55.710 * RDB memory usage when created 0.95 Mb
+1195:M 13 Dec 2025 03:03:55.711 * Done loading RDB, keys loaded: 5, keys expired: 0.
+1195:M 13 Dec 2025 03:03:55.711 * DB loaded from disk: 0.003 seconds
+1195:M 13 Dec 2025 03:03:55.711 * Ready to accept connections tcp
+1195:M 14 Dec 2025 06:02:53.658 * 1 changes in 3600 seconds. Saving...
+1195:M 14 Dec 2025 06:02:54.678 * Background saving started by pid 1196
+1196:C 14 Dec 2025 06:02:54.708 * DB saved on disk
+1196:C 14 Dec 2025 06:02:54.708 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1195:M 14 Dec 2025 06:02:54.793 * Background saving terminated with success
+1195:M 15 Dec 2025 18:48:59.231 * 1 changes in 3600 seconds. Saving...
+1195:M 15 Dec 2025 18:48:59.813 * Background saving started by pid 1197
+1197:C 15 Dec 2025 18:48:59.836 * DB saved on disk
+1197:C 15 Dec 2025 18:48:59.836 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1195:M 15 Dec 2025 18:48:59.926 * Background saving terminated with success
+1284:C 17 Dec 2025 01:17:38.709 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1284:C 17 Dec 2025 01:17:38.719 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=1284, just started
+1284:C 17 Dec 2025 01:17:38.719 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+1284:M 17 Dec 2025 01:17:38.722 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+1284:M 17 Dec 2025 01:17:38.722 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+1284:M 17 Dec 2025 01:17:38.722 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+1284:M 17 Dec 2025 01:17:38.722 * monotonic clock: POSIX clock_gettime
+1284:M 17 Dec 2025 01:17:38.727 * Running mode=standalone, port=6379.
+1284:M 17 Dec 2025 01:17:38.739 * Server initialized
+1284:M 17 Dec 2025 01:17:38.741 * Loading RDB produced by version 8.2.3
+1284:M 17 Dec 2025 01:17:38.741 * RDB age 109719 seconds
+1284:M 17 Dec 2025 01:17:38.741 * RDB memory usage when created 0.99 Mb
+1284:M 17 Dec 2025 01:17:38.742 * Done loading RDB, keys loaded: 5, keys expired: 0.
+1284:M 17 Dec 2025 01:17:38.742 * DB loaded from disk: 0.003 seconds
+1284:M 17 Dec 2025 01:17:38.742 * Ready to accept connections tcp
+1284:M 17 Dec 2025 02:17:39.065 * 1 changes in 3600 seconds. Saving...
+1284:M 17 Dec 2025 02:17:39.737 * Background saving started by pid 1285
+1285:C 17 Dec 2025 02:17:39.751 * DB saved on disk
+1285:C 17 Dec 2025 02:17:39.751 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1284:M 17 Dec 2025 02:17:39.852 * Background saving terminated with success
+31:C 17 Dec 2025 02:59:49.927 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+31:C 17 Dec 2025 02:59:49.932 * Redis version=8.2.3, bits=64, commit=2e81e005, modified=0, pid=31, just started
+31:C 17 Dec 2025 02:59:49.932 # Warning: no config file specified, using the default config. In order to specify a config file use /Redis-8.2.3-Windows-x64-cygwin/redis-server /path/to/redis.conf
+31:M 17 Dec 2025 02:59:49.936 # You requested maxclients of 10000 requiring at least 10032 max file descriptors.
+31:M 17 Dec 2025 02:59:49.936 # Server can't set maximum open files to 10032 because of OS error: Operation not permitted.
+31:M 17 Dec 2025 02:59:49.936 # Current maximum open files is 3200. maxclients has been reduced to 3168 to compensate for low ulimit. If you need higher maxclients increase 'ulimit -n'.
+31:M 17 Dec 2025 02:59:49.936 * monotonic clock: POSIX clock_gettime
+31:M 17 Dec 2025 02:59:49.941 * Running mode=standalone, port=6379.
+31:M 17 Dec 2025 02:59:49.948 * Server initialized
+31:M 17 Dec 2025 02:59:49.950 * Loading RDB produced by version 8.2.3
+31:M 17 Dec 2025 02:59:49.950 * RDB age 2530 seconds
+31:M 17 Dec 2025 02:59:49.950 * RDB memory usage when created 0.95 Mb
+31:M 17 Dec 2025 02:59:49.951 * Done loading RDB, keys loaded: 5, keys expired: 0.
+31:M 17 Dec 2025 02:59:49.951 * DB loaded from disk: 0.003 seconds
+31:M 17 Dec 2025 02:59:49.951 * Ready to accept connections tcp
+31:M 17 Dec 2025 13:57:43.793 * 1 changes in 3600 seconds. Saving...
+31:M 17 Dec 2025 13:57:44.231 * Background saving started by pid 32
+32:C 17 Dec 2025 13:57:44.245 * DB saved on disk
+32:C 17 Dec 2025 13:57:44.245 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+31:M 17 Dec 2025 13:57:44.342 * Background saving terminated with success

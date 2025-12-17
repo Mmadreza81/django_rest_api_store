@@ -3,14 +3,14 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import UserManager
 from django.utils import timezone
 from datetime import timedelta
-from django.conf import settings
+from django.core.exceptions import ValidationError
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=200, unique=True)
     phone_number = models.CharField(max_length=11, unique=True)
     username = models.CharField(max_length=200, unique=True)
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'phone_number'
@@ -25,19 +25,24 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.is_admin
 
+def validate_image_size(file):
+    file_size = file.size
+    if file_size > 4 * 1024 * 1024:
+        raise ValidationError("image size must be less than 4MB")
+
 def user_directory_path(instance, filename):
     return f'profile_pic/{instance.user.id}/{filename}'
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     age = models.IntegerField(null=True, blank=True)
-    image = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
+    image = models.ImageField(upload_to=user_directory_path, null=True, blank=True, validators=[validate_image_size])
     full_name = models.CharField(max_length=200, null=True, blank=True)
 
     def get_image_url(self):
         if self.image:
             return self.image.url
-        return settings.STATIC_URL + 'accounts/profile_pic/default.png'
+        return "https://api-shop.s3.ir-thr-at1.arvanstorage.ir/default/default.png"
 
     def __str__(self):
         if self.full_name:
@@ -45,7 +50,7 @@ class Profile(models.Model):
         return self.user.username
 
 class Address(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='addresses')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
     address = models.TextField()
     city = models.CharField(max_length=200)
     postal_code = models.CharField(max_length=25)

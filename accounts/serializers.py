@@ -75,20 +75,23 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-# ... بقیه سریالایزرها بدون تغییر ...
-
-
 class OtpVerifySerializer(serializers.Serializer):
     email = serializers.EmailField()
     code = serializers.IntegerField()
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    image_url = serializers.ReadOnlyField(source='get_image_url')
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = ['age', 'image', 'image_url', 'full_name']
+        extra_kwargs = {
+            'image': {'write_only': True},
+        }
+
+    def get_image_url(self, obj):
+        return obj.get_image_url()
 
 
 class AddressSerializer(serializers.ModelSerializer):

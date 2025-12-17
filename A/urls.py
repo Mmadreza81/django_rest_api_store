@@ -30,6 +30,3 @@ urlpatterns = [
     path('orders/', include('orders.urls'), name='orders'),
     path('reviews/', include('reviews.urls'), name='reviews'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

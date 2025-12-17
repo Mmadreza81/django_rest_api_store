@@ -7,7 +7,8 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'updated_at', 'paid_at', 'get_address')
+    list_display = ('id', 'user', 'status', 'updated_at', 'paid_at', 'get_address')
+    ordering = ('-paid_at',)
     list_filter = ('paid_at',)
     inlines = (OrderItemInline,)
     readonly_fields = ['phone_number']

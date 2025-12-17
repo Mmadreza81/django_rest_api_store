@@ -3,13 +3,15 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import get_object_or_404
-from .models import User, OtpCode, Profile, Address
+from .models import User, OtpCode, Address
 from .serializers import UserRegisterSerializer, OtpVerifySerializer, UserInfoSerializer, AddressSerializer, ProfileSerializer
-from rest_framework import serializers
 from .tasks import send_otp_email_async
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class RegisterView(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def post(self, request):
         serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -25,6 +27,8 @@ class RegisterView(APIView):
 
 
 class VerifyOtpView(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def post(self, request):
         serializer = OtpVerifySerializer(data=request.data)
         if serializer.is_valid():
@@ -58,18 +62,30 @@ class VerifyOtpView(APIView):
 
 class UserProfileView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def get(self, request):
         serializer = UserInfoSerializer(request.user)
         return Response(serializer.data)
 
     def put(self, request):
-        profile, created = Profile.objects.get_or_create(user=request.user)
+        profile = request.user.profile
+        if 'image' in request.data and profile.image:
+            profile.image.delete(save=True)
+
         serializer = ProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        profile = request.user.profile
+        if profile.image:
+            profile.image.delete(save=True)
+            return Response({"message": "profile's picture was deleted",
+                             "image_url": profile.get_image_url()}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"error": "there is no picture attached"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AddressViewSet(viewsets.ModelViewSet):
@@ -77,10 +93,4 @@ class AddressViewSet(viewsets.ModelViewSet):
     serializer_class = AddressSerializer
 
     def get_queryset(self):
-        return Address.objects.filter(user=self.user)
-
-    def perform_create(self, serializer):
-        # جلوگیری از ساخت چند آدرس چون مدل OneToOneField است
-        if Address.objects.filter(user=self.request.user).exists():
-            raise serializers.ValidationError("User already has an address.")
-        serializer.save(user=self.request.user)
+        return Address.objects.filter(user=self.request.user)

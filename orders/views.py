@@ -144,6 +144,17 @@ class OrderCreateView(APIView):
     @transaction.atomic
     def post(self, request):
 
+        address_id = request.data.get('address_id')
+        if not address_id:
+            return Response({'error': 'please select or create a shipping address.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user_address = request.user.addresses.get(id=address_id)
+        except AttributeError:
+            user_address = None
+        except Address.DoesNotExist:
+            user_address = None
+
         # 1. بازیابی سبد خرید مبتنی بر مدل
         try:
             cart = Cart.objects.get(user=request.user)
@@ -156,18 +167,6 @@ class OrderCreateView(APIView):
 
         # 2. دریافت تخفیف
         discount = cart.coupon.discount if cart.coupon else 0
-
-        user_address = None
-        try:
-            user_address = request.user.addresses
-        except AttributeError:
-            user_address = None
-        except Address.DoesNotExist:
-            user_address = None
-
-        if not user_address:
-            return Response({'error': 'please select or create a shipping address.'}, status=status.HTTP_400_BAD_REQUEST)
-        pass
 
         user_phone = request.user.phone_number if hasattr(request.user, 'phone_number') else None
 
@@ -210,12 +209,7 @@ class OrderPayView(APIView):
         order = get_object_or_404(Order, pk=pk, user=request.user, status='Pending')
 
         # بررسی آدرس کاربر
-        # فرض بر این است که آدرس از طریق OneToOneField به User متصل است (یا هر مکان دیگری که شما تعریف کرده‌اید)
-        if hasattr(request.user, 'addresses') and request.user.addresses:
-            order.address = request.user.addresses
-            order.phone_number = request.user.phone_number  # اگر شماره تلفن را در آدرس ذخیره کرده‌اید
-            order.save()
-        else:
+        if not order.address:
             return Response({'error': 'Please set your address in profile first.'}, status=status.HTTP_400_BAD_REQUEST)
 
         amount = int(order.get_total_price())  # تبدیل به ریال (یا تومان بسته به تنظیمات زرین‌پال)
