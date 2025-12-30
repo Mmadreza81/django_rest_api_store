@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import User, Profile, Address, OtpCode
-
+from home.serializers import ProductSerializer
+from .models import User, Profile, Address, OtpCode, WishList
 
 def clean_email(value):
     user = User.objects.filter(email=value).exists()
@@ -108,3 +108,10 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'username', 'phone_number', 'profile', 'addresses']
+
+class WishlistSerializer(serializers.ModelSerializer):
+    product_details = ProductSerializer(source='product', read_only=True)
+
+    class Meta:
+        model = WishList
+        fields = ['id', 'product', 'product_details', 'added_at']

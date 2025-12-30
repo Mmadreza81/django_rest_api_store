@@ -1,10 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, viewsets, permissions
+from rest_framework import status, viewsets, permissions, generics
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import get_object_or_404
-from .models import User, OtpCode, Address
-from .serializers import UserRegisterSerializer, OtpVerifySerializer, UserInfoSerializer, AddressSerializer, ProfileSerializer
+from .models import User, OtpCode, Address, WishList
+from home.models import Product
+from .serializers import UserRegisterSerializer, OtpVerifySerializer, UserInfoSerializer, AddressSerializer, ProfileSerializer, WishlistSerializer
 from .tasks import send_otp_email_async
 from rest_framework.parsers import MultiPartParser, FormParser
 
@@ -94,3 +95,21 @@ class AddressViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
+
+class WishlistToggleView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, product_id):
+        product = get_object_or_404(Product, id=product_id)
+        wishlist_item, created = WishList.objects.get_or_create(user=request.user, product=product)
+        if not created:
+            wishlist_item.delete()
+            return Response({'message': "از لیست علاقه مندی ها حذف شد."}, status=status.HTTP_200_OK)
+        return Response({'message': 'به لیست علاقه مندی ها اضافه شد.'}, status=status.HTTP_201_CREATED)
+
+class WishlistListView(generics.ListAPIView):
+    serializer_class = WishlistSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return WishList.objects.filter(user=self.request.user)

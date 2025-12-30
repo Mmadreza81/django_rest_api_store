@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from home.models import Product
 from .manager import UserManager
 from django.utils import timezone
 from datetime import timedelta
@@ -90,4 +91,15 @@ class OtpCode(models.Model):
         return cls.objects.create(email=email, code=code, expired_at=expired_at)
 
     def __str__(self):
-        return f'{self.email} - {self.code} - {self.created_at}'
+        return f'{self.code} - {self.created_at}'
+
+class WishList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='wishlisted_py')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f'{self.user.username} - {self.product.name}'

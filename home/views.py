@@ -1,22 +1,42 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters, permissions
 from .models import Product, Category
+from .filters import ProductFilter
 from .serializers import ProductSerializer, CategorySerializer
-from django.db.models import Avg
+from django.db.models import Avg, Q
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
+
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
 
     queryset = Product.objects.filter(available=True)
     serializer_class = ProductSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'description']
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = ProductFilter
     ordering_fields = ['price', 'created']
     lookup_field = 'slug'
 
     def get_queryset(self):
-        return (Product.objects.filter(available=True).
-                annotate(annotated_avg_rating=Avg('prating__score')).
-                prefetch_related('pcomments', 'prating', 'images'))
+        queryset = (Product.objects.filter(available=True).
+                    annotate(annotated_avg_rating=Avg('prating__score')).
+                    prefetch_related('pcomments', 'prating', 'images'))
+        search_text = self.request.query_params.get('search', None)
+        if search_text:
+            vector = (SearchVector('name', weight='A', config='simple') +
+                      SearchVector('description', weight='B', config='simple'))
+            query = SearchQuery(search_text, config='simple')
+            queryset = (queryset.annotate(rank=SearchRank(vector, query),
+                                          similarity=TrigramSimilarity('name', search_text)).
+                        filter(Q(rank__gte=0.3) | Q(similarity__gte=0.1)).order_by('-rank', '-similarity'))
+        min_price = self.request.query_params.get('min_price', None)
+        max_price = self.request.query_params.get('max_price', None)
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+        return queryset
+
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]

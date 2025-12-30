@@ -6,7 +6,7 @@ class Category(models.Model):
     sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='scategory', null=True, blank=True)
     is_sub = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True, blank=True)
 
     class Meta:
         ordering = ('name',)
@@ -26,13 +26,13 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name, allow_unicode=True)
+            self.slug = slugify(self.name, allow_unicode=True).replace(' ', '_')
         super().save(*args, **kwargs)
 
 class Product(models.Model):
     category = models.ManyToManyField(Category, related_name='products')
     name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True, blank=True)
     description = models.TextField()
     stock = models.PositiveIntegerField(default=0)
     price = models.IntegerField()

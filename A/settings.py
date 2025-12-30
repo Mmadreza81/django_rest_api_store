@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'rest_framework',
     'drf_spectacular',
+    'django_filters',
 
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',

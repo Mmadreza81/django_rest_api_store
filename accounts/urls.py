@@ -14,5 +14,7 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('profile/', views.UserProfileView.as_view(), name='profile'),
+    path('wishlist/', views.WishlistListView.as_view(), name='wishlist-list'),
+    path('wishlist/toggle/<int:product_id>/', views.WishlistToggleView.as_view(), name='wishlist-toggle'),
     path('', include(router.urls)),
 ]

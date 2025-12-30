@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Category, Product, ProductImage
 from reviews.serializers import RatingReadOnlySerializer, CommentReadOnlySerializer
+from accounts.models import WishList
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,11 +27,12 @@ class ProductSerializer(serializers.ModelSerializer):
     rating = RatingReadOnlySerializer(many=True, read_only=True, source='prating')
     rating_avg = serializers.SerializerMethodField()
     comments = CommentReadOnlySerializer(many=True, read_only=True, source='pcomments')
+    is_favorite = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = ['id', 'name', 'slug', 'description', 'price', 'stock',
-                  'available', 'rating_avg', 'rating', 'category', 'images', 'comments']
+                  'available', 'rating_avg', 'rating', 'category', 'images', 'comments', 'is_favorite']
 
     def get_images(self, obj):
         images_queryset = obj.images.all()
@@ -41,3 +44,9 @@ class ProductSerializer(serializers.ModelSerializer):
         if hasattr(obj, 'annotated_avg_rating') and obj.annotated_avg_rating is not None:
             return round(obj.annotated_avg_rating, 2)
         return 0.0
+
+    def get_is_favorite(self, obj):
+        user = self.context.get('request').user
+        if user.is_authenticated:
+            return WishList.objects.filter(user=user, product=obj).exists()
+        return False

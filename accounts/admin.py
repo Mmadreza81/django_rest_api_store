@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Profile, OtpCode, Address
+from .models import User, Profile, OtpCode, Address, WishList
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserCreationForm, UserChangeForm
 
@@ -46,6 +46,10 @@ class UserAdmin(BaseUserAdmin):
             form.base_fields['is_admin'].disabled = True
             form.base_fields['is_active'].disabled = True
         return form
+
+@admin.register(WishList)
+class WishListAdmin(admin.ModelAdmin):
+    pass
 
 
 admin.site.register(User, UserAdmin)

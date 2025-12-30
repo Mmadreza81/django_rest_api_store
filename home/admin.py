@@ -24,8 +24,9 @@ class CommentsInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     raw_id_fields = ('category',)
+    prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductImageInline, CommentsInline, RatingInline]
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'slug': ('name',)}
