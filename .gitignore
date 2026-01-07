@@ -1,0 +1,9 @@
+.env
+venv/
+*.pyc
+__pycache__/
+images/
+logs/
+celerybeat-schedule
+**/migrations/*.py
+!**/migrations/__init__.py
