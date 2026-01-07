@@ -1,7 +1,7 @@
 from rest_framework import serializers
-
 from home.models import Product
 from .models import Comments, Rating
+from utils import to_jalali
 
 
 class RecursiveCommentSerializer(serializers.Serializer):
@@ -15,16 +15,20 @@ class CommentSerializer(serializers.ModelSerializer):
     replies = RecursiveCommentSerializer(many=True, read_only=True, source='rcomments')
     reply = serializers.PrimaryKeyRelatedField(queryset=Comments.objects.all(), required=False, allow_null=True)
     product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), required=False, allow_null=True)
+    jalali_updated = serializers.SerializerMethodField()
 
     class Meta:
         model = Comments
-        fields = ['id', 'user', 'product', 'reply', 'replies', 'is_reply', 'body', 'created', 'replied_to_user']
+        fields = ['id', 'user', 'product', 'reply', 'replies', 'is_reply', 'body', 'jalali_updated', 'replied_to_user']
         read_only_fields = ['user']
 
     def get_replied_to_user(self, obj):
         if obj.reply:
             return obj.reply.user.username
         return None
+
+    def get_jalali_updated(self, obj):
+        return to_jalali(obj.updated)
 
 class CommentReadOnlySerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username', read_only=True)

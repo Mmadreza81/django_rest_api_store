@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'django_filters',
+    'jalali_date',
 
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
