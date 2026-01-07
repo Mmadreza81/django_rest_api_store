@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from rest_framework import permissions, status
+from rest_framework import permissions, status, generics
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -9,14 +9,12 @@ from django.db import transaction
 import requests
 import json
 from accounts.models import Address
-
-# ایمپورت مدل‌ها و سریالایزرها
 from .models import Order, OrderItem, Cart, CartItem, Coupon
 from home.models import Product
 from .serializers import CartSerializer, OrderSerializer
+from django.core.mail import send_mail
 
 # --- پیکربندی زرین‌پال ---
-# فرض می‌شود تنظیمات زیر در settings.py شما تعریف شده است
 if settings.SANDBOX:
     ZP_API_REQUEST = "https://sandbox.zarinpal.com/pg/v4/payment/request.json"
     ZP_API_VERIFY = "https://sandbox.zarinpal.com/pg/v4/payment/verify.json"
@@ -27,10 +25,7 @@ else:
     ZP_API_STARTPAY = "https://www.zarinpal.com/pg/StartPay/{authority}"
 
 
-# -----------------------------------------------------------
 # ۱. مدیریت سبد خرید (CartAPIView)
-# -----------------------------------------------------------
-
 class CartAPIView(APIView):
     """مدیریت سبد خرید مبتنی بر مدل (Model-Based)"""
     permission_classes = [permissions.IsAuthenticated]
@@ -92,10 +87,7 @@ class CartAPIView(APIView):
         return Response({'message': message, 'cart': serializer.data}, status=status.HTTP_200_OK)
 
 
-# -----------------------------------------------------------
 #۲. اعمال کد تخفیف (ApplyCouponView)
-# -----------------------------------------------------------
-
 class ApplyCouponView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -134,10 +126,7 @@ class ApplyCouponView(APIView):
         }, status=status.HTTP_200_OK)
 
 
-# -----------------------------------------------------------
 #۳. ایجاد سفارش (OrderCreateView)
-# -----------------------------------------------------------
-
 class OrderCreateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -197,10 +186,7 @@ class OrderCreateView(APIView):
         }, status=status.HTTP_201_CREATED)
 
 
-# -----------------------------------------------------------
 # # ۴. پرداخت (OrderPayView & VerifyPaymentView)
-# -----------------------------------------------------------
-
 class OrderPayView(APIView):
     """شروع فرایند پرداخت و اتصال به زرین‌پال"""
     permission_classes = [permissions.IsAuthenticated]
@@ -212,7 +198,7 @@ class OrderPayView(APIView):
         if not order.address:
             return Response({'error': 'Please set your address in profile first.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        amount = int(order.get_total_price())  # تبدیل به ریال (یا تومان بسته به تنظیمات زرین‌پال)
+        amount = int(order.get_total_price()) * 10  # تبدیل به ریال (یا تومان بسته به تنظیمات زرین‌پال)
         description = f"Order #{order.id} Payment"
         callback_url_with_id = f'{settings.CALLBACKURL}?order_id={order.id}'
 
@@ -244,21 +230,18 @@ class VerifyPaymentView(APIView):
     permission_classes = [permissions.AllowAny]
 
     """بررسی و تأیید نهایی پرداخت توسط زرین‌پال"""
-
-    # 💡 توجه: این View معمولاً احراز هویت JWT را ندارد و نیاز به روش دیگری برای تشخیص کاربر دارد
-    # (مثلاً ارسال یک پارامتر user_id در callback_url)
-
     def get(self, request):
         authority = request.GET.get('Authority')
         status_pay = request.GET.get('Status')
         order_id = request.GET.get('order_id')
 
-        if status_pay != 'OK':
-            return Response({'error': 'Payment Canceled'}, status=status.HTTP_400_BAD_REQUEST)
+        order = get_object_or_404(Order, id=order_id)
 
-        # ⬅️ نکته: یافتن آخرین سفارش معلق کاربر در اینجا ممکن است ریسکی باشد.
-        # بهتر است Order ID را از طریق metadata یا callback URL دریافت کنید.
-        # اما در حال حاضر فرض می‌کنیم request.user معتبر است و از last() استفاده می‌کنیم.
+        if status_pay != 'OK' or status_pay == 'NOK':
+            order.status = 'canceled'
+            order.save()
+            order.refresh_from_db()
+            return Response({'error': 'Payment Canceled', 'status': 'Canceled'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not order_id:
             return Response({'error': 'No pending order found'}, status=status.HTTP_404_NOT_FOUND)
@@ -268,7 +251,7 @@ class VerifyPaymentView(APIView):
         except ValueError:
             return Response({'error': 'invalid order id format'}, status=status.HTTP_400_BAD_REQUEST)
 
-        amount = int(order.get_total_price())  # تبدیل واحد قیمت
+        amount = int(order.get_total_price()) * 10  # تبدیل واحد قیمت
 
         data = {
             "merchant_id": settings.MERCHANT,
@@ -285,7 +268,58 @@ class VerifyPaymentView(APIView):
             order.paid_at = timezone.now()
             order.save()
 
+            subject = f"جزئیات سفارش شماره {order.id} - فروشگاه ما"
+
+            # ایجاد لیست محصولات
+            items_text = ""
+            for item in order.items.all():
+                items_text += f"- {item.product.name} | تعداد: {item.quantity} | قیمت واحد: {int(item.unit_price):,} تومان\n"
+
+            message = f"""
+            کاربر گرامی {order.user.username}، سلام.
+            پرداخت شما با موفقیت تایید شد.
+
+            جزئیات سفارش شما:
+            ----------------------------------
+            شماره سفارش: {order.id}
+            تاریخ پرداخت: {order.paid_at.strftime('%Y-%m-%d %H:%M')}
+            مبلغ کل: {int(order.get_total_price()):,} تومان
+            آدرس ارسال: {order.address.address if order.address else 'نامشخص'}
+
+            لیست محصولات:
+            {items_text}
+            ----------------------------------
+            از خرید شما سپاسگزاریم.
+                """
+
+            # ارسال ایمیل
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    [order.user.email],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                print(f"Email Error: {e}")
+
             return Response({'message': 'Payment successful', 'ref_id': res_data['data']['ref_id']})
 
         return Response({'error': 'Payment verification failed', 'detail': res_data},
                         status=status.HTTP_400_BAD_REQUEST)
+
+class UserOrdersListView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user).prefetch_related('items__product')
+
+class UserOrderDetailView(generics.RetrieveAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)

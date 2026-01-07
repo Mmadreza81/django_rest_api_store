@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Category, Product, ProductImage
 from reviews.serializers import RatingReadOnlySerializer, CommentReadOnlySerializer
 from accounts.models import WishList
+from utils import to_jalali
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -28,11 +29,14 @@ class ProductSerializer(serializers.ModelSerializer):
     rating_avg = serializers.SerializerMethodField()
     comments = CommentReadOnlySerializer(many=True, read_only=True, source='pcomments')
     is_favorite = serializers.SerializerMethodField()
+    formatted_price = serializers.SerializerMethodField()
+    jalali_updated = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'slug', 'description', 'price', 'stock',
-                  'available', 'rating_avg', 'rating', 'category', 'images', 'comments', 'is_favorite']
+        fields = ['id', 'name', 'slug', 'description', 'formatted_price', 'stock',
+                  'available', 'rating_avg', 'rating', 'category', 'images',
+                  'comments', 'is_favorite', 'jalali_updated']
 
     def get_images(self, obj):
         images_queryset = obj.images.all()
@@ -46,7 +50,13 @@ class ProductSerializer(serializers.ModelSerializer):
         return 0.0
 
     def get_is_favorite(self, obj):
-        user = self.context.get('request').user
-        if user.is_authenticated:
-            return WishList.objects.filter(user=user, product=obj).exists()
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            return WishList.objects.filter(user=request.user, product=obj).exists()
         return False
+
+    def get_formatted_price(self, obj):
+        return "{:,}".format(int(obj.price))
+
+    def get_jalali_updated(self, obj):
+        return to_jalali(obj.updated)

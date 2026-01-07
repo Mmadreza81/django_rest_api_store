@@ -1,3 +1,4 @@
+from django_celery_beat.utils import now
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets, permissions, generics
@@ -5,8 +6,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import get_object_or_404
 from .models import User, OtpCode, Address, WishList
 from home.models import Product
-from .serializers import UserRegisterSerializer, OtpVerifySerializer, UserInfoSerializer, AddressSerializer, ProfileSerializer, WishlistSerializer
+from .serializers import UserRegisterSerializer, OtpVerifySerializer, UserInfoSerializer, AddressSerializer, \
+    ProfileSerializer, WishlistSerializer
 from .tasks import send_otp_email_async
+from datetime import timedelta
+from django.utils import timezone
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
@@ -16,14 +20,20 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
+            email = serializer.validated_data['email']
+            last_otp = OtpCode.objects.filter(email=email).order_by('-created_at').first()
+            if last_otp and (timezone.now() - last_otp.created_at < timedelta(seconds=30)):
+                return Response({'error': 'درخواست های شما بیش ازحد مجاز است.لطفا کمی صبر کنید.'},
+                                status=status.HTTP_429_TOO_MANY_REQUESTS)
 
+            user = serializer.save()
             # ایجاد OTP
             otp = OtpCode.create_for_email(user.email)
             # فراخوانی تسک ناهمگام (Async)
             send_otp_email_async.delay(otp.id)
 
-            return Response({'message': 'کاربر ساخته شد.ایمیل خود را برای احراز هویت چک کنید.'}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'کاربر ساخته شد.ایمیل خود را برای احراز هویت چک کنید.'},
+                            status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -61,6 +71,26 @@ class VerifyOtpView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ResendOtpView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({'error': 'ایمیل الزامی است.'}, status=status.HTTP_400_BAD_REQUEST)
+        last_otp = OtpCode.objects.filter(email=email).order_by('-created_at').first()
+        if last_otp:
+            time_passed = timezone.now() - last_otp.created_at
+            if time_passed < timedelta(seconds=30):
+                remaining = 30 - int(time_passed.total_seconds())
+                return Response({'error': f'لطفا{remaining} ثانیه صبر کنید.'},
+                                status=status.HTTP_429_TOO_MANY_REQUESTS)
+        OtpCode.objects.filter(email=email, is_used=False).delete()
+        otp = OtpCode.create_for_email(email)
+        send_otp_email_async.delay(otp.id)
+        return Response({'message': 'کد جدید ارسال شد.'}, status=status.HTTP_200_OK)
+
+
 class UserProfileView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
@@ -96,6 +126,7 @@ class AddressViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
 
+
 class WishlistToggleView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -106,6 +137,7 @@ class WishlistToggleView(APIView):
             wishlist_item.delete()
             return Response({'message': "از لیست علاقه مندی ها حذف شد."}, status=status.HTTP_200_OK)
         return Response({'message': 'به لیست علاقه مندی ها اضافه شد.'}, status=status.HTTP_201_CREATED)
+
 
 class WishlistListView(generics.ListAPIView):
     serializer_class = WishlistSerializer

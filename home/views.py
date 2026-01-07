@@ -4,6 +4,8 @@ from .models import Product, Category
 from .filters import ProductFilter
 from .serializers import ProductSerializer, CategorySerializer
 from django.db.models import Avg, Q
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 
 
@@ -36,6 +38,16 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         if max_price:
             queryset = queryset.filter(price__lte=max_price)
         return queryset
+
+    @action(detail=True, methods=['get'])
+    def related_products(self, request, slug=None):
+        product = self.get_object()
+        categories = product.category.all()
+        related = Product.objects.filter(category__in=categories,
+                                         available=True).exclude(id=product.id).distinct().order_by('?')[:4]
+
+        serializer = self.get_serializer(related, many=True)
+        return Response(serializer.data)
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):

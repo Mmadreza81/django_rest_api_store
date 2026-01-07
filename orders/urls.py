@@ -22,4 +22,6 @@ urlpatterns = [
     # تأیید نهایی پرداخت (Callback URL)
     # GET: دریافت پاسخ از زرین‌پال و تأیید نهایی
     path('verify/', views.VerifyPaymentView.as_view(), name='order-verify'),
+    path('my-orders/', views.UserOrdersListView.as_view(), name='user-orders-list'),
+    path('my-orders/<int:id>/', views.UserOrderDetailView.as_view(), name='user-orders-detail'),
 ]

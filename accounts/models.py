@@ -62,7 +62,7 @@ class Address(models.Model):
 
 class OtpCode(models.Model):
     email = models.EmailField(db_index=True)
-    code = models.IntegerField()
+    code = models.CharField()
     created_at = models.DateTimeField(auto_now_add=True)
     expired_at = models.DateTimeField()
     attempts = models.IntegerField(default=0)
