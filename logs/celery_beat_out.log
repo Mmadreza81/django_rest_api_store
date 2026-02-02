@@ -18,3 +18,13 @@ Configuration ->
 
     . logfile -> [stderr]@%INFO
     . maxinterval -> 5.00 seconds (5s)
+celery beat v5.5.3 (immunity) is starting.
+__    -    ... __   -        _
+LocalTime -> 2026-01-07 17:43:40
+Configuration ->
+    . broker -> redis://localhost:6379/0
+    . loader -> celery.loaders.app.AppLoader
+    . scheduler -> django_celery_beat.schedulers.DatabaseScheduler
+
+    . logfile -> [stderr]@%INFO
+    . maxinterval -> 5.00 seconds (5s)

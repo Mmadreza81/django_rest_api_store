@@ -7,3 +7,5 @@ logs/
 celerybeat-schedule
 **/migrations/*.py
 !**/migrations/__init__.py
+Dockerfile
+docker-compose.yml
